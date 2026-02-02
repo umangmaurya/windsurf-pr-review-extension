@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windsurf PR Review Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <h1>Windsurf PR Review</h1>
+    </div>
+    
+    <div class="form-group">
+      <label for="workspacePath">Workspace Path</label>
+      <div class="input-with-button">
+        <input 
+          type="text" 
+          id="workspacePath" 
+          placeholder="/Users/umang.maurya/git/now/slo-apps/app-supplier-gen-ai"
+        >
+        <button type="button" id="browseBtn" class="browse-btn" title="Browse for workspace">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+      </div>
+      <input type="file" id="workspaceFile" accept=".code-workspace" style="display: none;">
+      <p class="hint">Full path to your Windsurf workspace directory or select a .code-workspace file</p>
+      <div class="workspace-file-info" id="workspaceFileInfo">
+        <span class="workspace-file-label">Workspace file:</span>
+        <span class="workspace-file-name" id="workspaceFileDisplay">None selected</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="githubHost">GitHub Host (Optional)</label>
+      <input 
+        type="text" 
+        id="githubHost" 
+        placeholder="code.devsnc.com"
+        value="code.devsnc.com"
+      >
+      <p class="hint">Your GitHub Enterprise hostname</p>
+    </div>
+    
+    <button id="saveBtn" class="save-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+        <polyline points="17 21 17 13 7 13 7 21"/>
+        <polyline points="7 3 7 8 15 8"/>
+      </svg>
+      Save Settings
+    </button>
+    
+    <div id="status" class="status"></div>
+
+    <div class="info-section">
+      <h2>How to use</h2>
+      <ol>
+        <li>Set your workspace path above</li>
+        <li>Navigate to any PR on <code>code.devsnc.com</code></li>
+        <li>Click the "Review in Windsurf" button</li>
+        <li>The PR review workflow will start automatically</li>
+      </ol>
+    </div>
+  </div>
+  
+  <script src="dist/popup.js"></script>
+</body>
+</html>

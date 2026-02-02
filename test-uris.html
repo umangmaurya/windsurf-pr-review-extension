@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Windsurf URI Test</title>
+  <style>
+    body { font-family: -apple-system, sans-serif; padding: 40px; max-width: 900px; margin: 0 auto; }
+    h1 { color: #6366f1; }
+    .uri-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 16px 0; }
+    .uri-card h3 { margin: 0 0 10px 0; color: #1e293b; }
+    .uri-card code { display: block; background: #1e293b; color: #10b981; padding: 12px; border-radius: 8px; margin: 10px 0; word-break: break-all; font-size: 12px; }
+    .uri-card button { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .uri-card button:hover { opacity: 0.9; }
+    .note { color: #64748b; font-size: 13px; margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Windsurf URI Format Tester</h1>
+  <p>Click each button to test different Windsurf URL formats. Note which one triggers the workflow!</p>
+  
+  <div class="uri-card">
+    <h3>1. newChat + submit=true</h3>
+    <code id="uri1"></code>
+    <button onclick="tryUri(1)">Try This</button>
+    <p class="note">cascade/newChat with submit=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>2. newChat + send=true</h3>
+    <code id="uri2"></code>
+    <button onclick="tryUri(2)">Try This</button>
+    <p class="note">cascade/newChat with send=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>3. newChat + run=true</h3>
+    <code id="uri3"></code>
+    <button onclick="tryUri(3)">Try This</button>
+    <p class="note">cascade/newChat with run=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>4. newChat + execute=true</h3>
+    <code id="uri4"></code>
+    <button onclick="tryUri(4)">Try This</button>
+    <p class="note">cascade/newChat with execute=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>5. newChat + workflow param</h3>
+    <code id="uri5"></code>
+    <button onclick="tryUri(5)">Try This</button>
+    <p class="note">cascade/newChat?workflow=pr-review&args=URL</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>6. cascade/runWorkflow</h3>
+    <code id="uri6"></code>
+    <button onclick="tryUri(6)">Try This</button>
+    <p class="note">cascade/runWorkflow?name=pr-review</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>7. cascade/chat + autoSubmit</h3>
+    <code id="uri7"></code>
+    <button onclick="tryUri(7)">Try This</button>
+    <p class="note">cascade/chat?autoSubmit=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>8. cascade/prompt</h3>
+    <code id="uri8"></code>
+    <button onclick="tryUri(8)">Try This</button>
+    <p class="note">cascade/prompt?text=...</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>9. file + cascadeMessage</h3>
+    <code id="uri9"></code>
+    <button onclick="tryUri(9)">Try This</button>
+    <p class="note">file/path?cascadeMessage=...&submit=true</p>
+  </div>
+
+  <div class="uri-card">
+    <h3>10. newChat + autoRun</h3>
+    <code id="uri10"></code>
+    <button onclick="tryUri(10)">Try This</button>
+    <p class="note">cascade/newChat?prompt=...&autoRun=true</p>
+  </div>
+
+  <script>
+    const workspacePath = '/Users/umang.maurya/slorepos.code-workspace';
+    const prUrl = 'https://code.devsnc.com/dev/app-supplier-gen-ai/pull/465';
+    const message = `/pr-review ${prUrl}`;
+    const encodedMsg = encodeURIComponent(message);
+    const encodedPath = encodeURIComponent(workspacePath);
+
+    const uris = {
+      1: `windsurf-next://cascade/newChat?folder=${encodedPath}&message=${encodedMsg}&submit=true`,
+      2: `windsurf-next://cascade/newChat?folder=${encodedPath}&message=${encodedMsg}&send=true`,
+      3: `windsurf-next://cascade/newChat?folder=${encodedPath}&message=${encodedMsg}&run=true`,
+      4: `windsurf-next://cascade/newChat?folder=${encodedPath}&message=${encodedMsg}&execute=true`,
+      5: `windsurf-next://cascade/newChat?folder=${encodedPath}&workflow=pr-review&args=${encodeURIComponent(prUrl)}`,
+      6: `windsurf-next://cascade/runWorkflow?folder=${encodedPath}&name=pr-review&input=${encodeURIComponent(prUrl)}`,
+      7: `windsurf-next://cascade/chat?folder=${encodedPath}&message=${encodedMsg}&autoSubmit=true`,
+      8: `windsurf-next://cascade/prompt?folder=${encodedPath}&text=${encodedMsg}`,
+      9: `windsurf-next://file/${workspacePath}?cascadeMessage=${encodedMsg}&submit=true`,
+      10: `windsurf-next://cascade/newChat?folder=${encodedPath}&prompt=${encodedMsg}&autoRun=true`
+    };
+
+    // Display all URIs
+    for (let i = 1; i <= 10; i++) {
+      document.getElementById('uri' + i).textContent = uris[i];
+    }
+
+    function tryUri(num) {
+      window.location.href = uris[num];
+    }
+  </script>
+</body>
+</html>
