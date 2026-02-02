@@ -1,4 +1,4 @@
-import { ExtensionSettings, PRInfo, PR_URL_PATTERN } from './types';
+import { ExtensionSettings, PRInfo, DEFAULT_PR_URL_PATTERN, createPRUrlPattern, DEFAULT_SETTINGS } from './types';
 
 class WindsurfPRReviewButton {
   private prInfo: PRInfo | null = null;
@@ -9,17 +9,32 @@ class WindsurfPRReviewButton {
     this.init();
   }
 
-  private init(): void {
-    const match = window.location.href.match(PR_URL_PATTERN);
-    if (!match) return;
-
-    const [, org, repo, prNumber] = match;
-    this.prInfo = {
-      org,
-      repo,
-      prNumber,
-      fullUrl: window.location.href
-    };
+  private async init(): Promise<void> {
+    const settings = await this.getStoredSettings();
+    const pattern = createPRUrlPattern(settings.githubHost);
+    const match = window.location.href.match(pattern);
+    
+    if (!match) {
+      // Try default pattern for any GitHub-like URL
+      const defaultMatch = window.location.href.match(DEFAULT_PR_URL_PATTERN);
+      if (!defaultMatch) return;
+      
+      const [, , org, repo, prNumber] = defaultMatch;
+      this.prInfo = {
+        org,
+        repo,
+        prNumber,
+        fullUrl: window.location.href
+      };
+    } else {
+      const [, org, repo, prNumber] = match;
+      this.prInfo = {
+        org,
+        repo,
+        prNumber,
+        fullUrl: window.location.href
+      };
+    }
 
     this.createButton();
     this.observeNavigation();
@@ -103,7 +118,7 @@ class WindsurfPRReviewButton {
         resolve({
           workspacePath: result.workspacePath || '',
           workspaceFile: result.workspaceFile || '',
-          githubHost: result.githubHost || 'code.devsnc.com'
+          githubHost: result.githubHost || DEFAULT_SETTINGS.githubHost
         });
       });
     });
@@ -120,8 +135,10 @@ class WindsurfPRReviewButton {
   }
 
   private observeNavigation(): void {
-    const observer = new MutationObserver(() => {
-      if (window.location.href.match(PR_URL_PATTERN)) {
+    const observer = new MutationObserver(async () => {
+      const settings = await this.getStoredSettings();
+      const pattern = createPRUrlPattern(settings.githubHost);
+      if (window.location.href.match(pattern) || window.location.href.match(DEFAULT_PR_URL_PATTERN)) {
         this.createButton();
       }
     });

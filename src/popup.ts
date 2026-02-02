@@ -95,7 +95,8 @@ class SettingsPopup {
             
             // If it's a relative path, try to construct absolute path
             if (!cleanPath.startsWith('/')) {
-              cleanPath = `/Users/umang.maurya/${cleanPath}`;
+              // Relative path - user will need to adjust
+              cleanPath = cleanPath;
             }
             
             this.workspacePathInput.value = cleanPath;

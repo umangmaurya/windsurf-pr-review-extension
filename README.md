@@ -1,13 +1,13 @@
 # Windsurf PR Review Chrome Extension
 
-A Chrome extension that adds a "Review in Windsurf" button to GitHub Enterprise PR pages, allowing you to quickly open the PR review workflow in your Windsurf IDE.
+A Chrome extension that adds a "Review in Windsurf" button to GitHub and GitHub Enterprise PR pages, allowing you to quickly open the PR review workflow in your Windsurf IDE.
 
 ## Features
 
 - 🚀 One-click PR review in Windsurf
 - ⚙️ Configurable workspace path
 - 🎨 Clean, modern UI
-- 🔒 Works with GitHub Enterprise (code.devsnc.com)
+- 🔒 Works with GitHub and GitHub Enterprise (configurable host)
 - 📝 Written in TypeScript
 
 ## Installation
@@ -32,15 +32,16 @@ npm run build
 1. Click the extension icon in Chrome toolbar
 2. Enter your Windsurf workspace path, e.g.:
    ```
-   /Users/umang.maurya/git/now/slo-apps/app-supplier-gen-ai
+   /path/to/your/project
    ```
-3. Click **Save Settings**
+3. (Optional) Configure your GitHub host if using GitHub Enterprise
+4. Click **Save Settings**
 
 ## Usage
 
-1. Navigate to any PR on `code.devsnc.com`, e.g.:
+1. Navigate to any PR on your configured GitHub host, e.g.:
    ```
-   https://code.devsnc.com/dev/app-supplier-gen-ai/pull/465
+   https://github.com/owner/repo/pull/123
    ```
 
 2. A purple **"Review in Windsurf"** button appears in the bottom-right corner
@@ -53,18 +54,18 @@ npm run build
 
 The extension uses Windsurf's URL protocol handler:
 ```
-windsurf://file/PATH?chat=COMMAND
+windsurf-next://cascade/newChat?folder=PATH&prompt=COMMAND&autoRun=true
 ```
 
 When you click the button, it constructs a URL like:
 ```
-windsurf://file//Users/umang.maurya/git/now/slo-apps/app-supplier-gen-ai?windowId=_blank&chat=@/pr-review https://code.devsnc.com/dev/app-supplier-gen-ai/pull/465
+windsurf-next://cascade/newChat?folder=/path/to/workspace&prompt=/pr-review%20https://github.com/owner/repo/pull/123&autoRun=true
 ```
 
 ## Troubleshooting
 
 ### Button doesn't appear
-- Make sure you're on a PR page (URL matches `https://code.devsnc.com/*/pull/*`)
+- Make sure you're on a PR page (URL matches `https://<your-github-host>/<owner>/<repo>/pull/*`)
 - Try refreshing the page
 - Check if the extension is enabled in `chrome://extensions/`
 

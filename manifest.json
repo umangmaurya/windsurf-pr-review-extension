@@ -2,13 +2,13 @@
   "manifest_version": 3,
   "name": "Windsurf PR Review",
   "version": "1.0.0",
-  "description": "Open PR review workflow in Windsurf directly from GitHub Enterprise PR pages",
+  "description": "Open PR review workflow in Windsurf directly from GitHub or GitHub Enterprise PR pages",
   "permissions": [
     "activeTab",
     "storage"
   ],
   "host_permissions": [
-    "https://code.devsnc.com/*"
+    "https://*/*"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -21,7 +21,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://code.devsnc.com/*/pull/*"],
+      "matches": ["https://github.com/*/pull/*", "https://*.github.com/*/pull/*", "https://*/pull/*"],
       "js": ["dist/content.js"],
       "css": ["content.css"]
     }

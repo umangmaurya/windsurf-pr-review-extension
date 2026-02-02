@@ -11,10 +11,16 @@ export interface PRInfo {
   fullUrl: string;
 }
 
-export const PR_URL_PATTERN = /^https:\/\/code\.devsnc\.com\/([^/]+)\/([^/]+)\/pull\/(\d+)/;
+// Dynamic pattern - will be constructed based on configured host
+export const createPRUrlPattern = (host: string): RegExp => {
+  const escapedHost = host.replace(/\./g, '\\.');
+  return new RegExp(`^https:\/\/${escapedHost}\/([^/]+)\/([^/]+)\/pull\/(\\d+)`);
+};
+
+export const DEFAULT_PR_URL_PATTERN = /^https:\/\/([^/]+)\/([^/]+)\/([^/]+)\/pull\/(\d+)/;
 
 export const DEFAULT_SETTINGS: ExtensionSettings = {
   workspacePath: '',
   workspaceFile: '',
-  githubHost: 'code.devsnc.com'
+  githubHost: 'github.com'
 };
