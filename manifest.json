@@ -21,7 +21,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://code.devsnc.com/*/pull/*"],
+      "matches": ["https://code.devsnc.com/*/*/pull/*"],
       "js": ["dist/content.js"],
       "css": ["content.css"]
     }
